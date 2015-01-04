@@ -1,0 +1,20 @@
+option java_generate_equals_and_hash = true;
+
+option java_package = "com.github.lukaszbudnik.protobuf.model";
+
+message TestCaseV1 {
+    required string name = 1;
+    required bytes content = 2;
+}
+
+message TestRunV1 {
+    required string name = 1;
+    required int32 concurrencyLevel = 2;
+    repeated TestCaseV1 testCases = 3;
+}
+
+message TestRunV2 {
+    required string name = 1;
+    repeated TestCaseV1 testCases = 3;
+    optional string timezone = 4;
+}

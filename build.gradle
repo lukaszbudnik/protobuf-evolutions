@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.4.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'protobuf'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+ext {
+    protobufSource = "src/main/proto"
+    protobufDest = "build/generated/java"
+}
+
+repositories {
+    mavenCentral()
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.+'
+}
+
+protobuf {
+    compiler = '/usr/local/bin/protoc'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir protobufDest
+        }
+        resources {
+            srcDir protobufSource
+        }
+    }
+}
